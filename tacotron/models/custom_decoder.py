@@ -10,7 +10,7 @@ from tensorflow.contrib.seq2seq.python.ops import helper as helper_py
 from tensorflow.python.framework import ops
 from tensorflow.python.framework import tensor_shape
 from tensorflow.python.layers import base as layers_base
-from tensorflow.contrib.rnn.python.ops import core_rnn_cell_impl as rnn_cell_impl
+from tensorflow.python.ops import rnn_cell_impl
 from tensorflow.python.util import nest
 from tacotron.models.helpers import TacoTrainingHelper, TacoTestHelper
 
