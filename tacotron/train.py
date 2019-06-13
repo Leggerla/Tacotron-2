@@ -98,7 +98,7 @@ def train(log_dir, args):
 			sess.run(tf.global_variables_initializer())
 
 			#saved model restoring
-			if args.restore:
+			'''if args.restore:
 				#Restore saved model if the user requested it, Default = True.
 				try:
 					checkpoint_state = tf.train.get_checkpoint_state(save_dir)
@@ -113,7 +113,9 @@ def train(log_dir, args):
 				if not args.restore:
 					log('Starting new training!')
 				else:
-					log('No model to load at {}'.format(save_dir))
+					log('No model to load at {}'.format(save_dir))'''
+			
+			log('Starting new training!')
 
 			#initializing feeder
 			feeder.start_in_session(sess)
