@@ -105,10 +105,12 @@ class Feeder(threading.Thread):
 		text = meta[5]
 
 		input_data = np.asarray(text_to_sequence(text, self._cleaner_names), dtype=np.int32)
-		mel_target = np.load(os.path.join(self._mel_dir, meta[1]))
+		mel_folder_num = str(int(meta[1].split('-')[2]) // 1000)
+		mel_target = np.load(os.path.join(self._mel_dir, mel_folder_num, meta[1]))
 		#Create parallel sequences containing zeros to represent a non finished sequence
 		token_target = np.asarray([0.] * len(mel_target))
-		linear_target = np.load(os.path.join(self._linear_dir, meta[2]))
+		linear_folder_num = str(int(meta[2].split('-')[2]) // 1000)
+		linear_target = np.load(os.path.join(self._linear_dir, linear_folder_num, meta[2]))
 		return (input_data, mel_target, token_target, linear_target, len(mel_target))
 
 
