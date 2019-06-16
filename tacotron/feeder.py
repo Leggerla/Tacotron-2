@@ -88,13 +88,9 @@ class Feeder(threading.Thread):
 		np.random.shuffle(batches)
 
 		log('\nGenerated {} batches of size {} in {:.3f} sec'.format(len(batches), n, time.time() - start))
-		print (1)
 		for batch in batches:
-			print (2)
 			feed_dict = dict(zip(self._placeholders, _prepare_batch(batch, r)))
-			print (3)
 			self._session.run(self._enqueue_op, feed_dict=feed_dict)
-			print (4)
 
 	def _get_next_example(self):
 		"""
