@@ -62,7 +62,7 @@ def run_synthesis(args, checkpoint_path, output_dir):
 	print('synthesized mel spectrograms at {}'.format(synth_dir))
 
 def tacotron_synthesize(args):
-	hparams.parse(args.hparams)
+	#hparams.parse(args.hparams)
 	os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 	output_dir = 'tacotron_' + args.output_dir
 	if args.text_list != '':
