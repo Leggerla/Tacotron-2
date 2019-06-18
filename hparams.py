@@ -79,23 +79,23 @@ hparams = Map({
 
 	'enc_conv_num_layers' : 3, #number of encoder convolutional layers
 	'enc_conv_kernel_size' : (5, ), #size of encoder convolution filters for each layer
-	'enc_conv_channels' : 128,#512, #number of encoder convolutions filters for each layer
-	'encoder_lstm_units' : 64,#256, #number of lstm units for each direction (forward and backward)
+	'enc_conv_channels' : 512, #number of encoder convolutions filters for each layer
+	'encoder_lstm_units' : 256, #number of lstm units for each direction (forward and backward)
 
 	'smoothing' : False, #Whether to smooth the attention normalization function 
-	'attention_dim' : 32,#128, #dimension of attention space
-	'attention_filters' : 8,#32, #number of attention convolution filters
-	'attention_kernel' : (7, ),#31 #kernel size of attention convolution
+	'attention_dim' : 128, #dimension of attention space
+	'attention_filters' : 32, #number of attention convolution filters
+	'attention_kernel' : (31, ),#kernel size of attention convolution
 	'cumulative_weights' : True, #Whether to cumulate (sum) all previous attention weights or simply feed previous weights (Recommended: True)
 
-	'prenet_layers' : [64, 64],#[256, 256], #number of layers and number of units of prenet
+	'prenet_layers' : [256, 256], #number of layers and number of units of prenet
 	'decoder_layers' : 2, #number of decoder lstm layers
-	'decoder_lstm_units' : 256,#1024, #number of decoder lstm units on each layer
+	'decoder_lstm_units' : 1024, #number of decoder lstm units on each layer
 	'max_iters' : 2500, #Max decoder steps during inference (Just for safety from infinite loop cases)
 
 	'postnet_num_layers' : 5, #number of postnet convolutional layers
 	'postnet_kernel_size' : (5, ), #size of postnet convolution filters for each layer
-	'postnet_channels' : 128,#512, #number of postnet convolution filters for each layer
+	'postnet_channels' : 512, #number of postnet convolution filters for each layer
 
 	'mask_encoder' : False, #whether to mask encoder padding while computing attention
 	'impute_finished' : False, #Whether to use loss mask for padded sequences
