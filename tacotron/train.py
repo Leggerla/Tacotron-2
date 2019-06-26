@@ -6,6 +6,7 @@ import time
 import tensorflow as tf 
 import traceback
 import argparse
+from skimage.measure import compare_psnr
 
 from tacotron.feeder import Feeder
 from hparams import hparams, hparams_debug_string
@@ -170,7 +171,10 @@ def train(log_dir, args):
 					#save predicted mel spectrogram to disk (debug)
 					mel_filename = 'mel-prediction-step-{}.npy'.format(step)
 					np.save(os.path.join(mel_dir, mel_filename), mel_prediction.T, allow_pickle=False)
+					np.save(os.path.join(mel_dir, mel_filename.replace('prediction', 'real')), target.T, allow_pickle=False)
 
+					log('PSNR score at step {}: {}'.format(step, compare_psnr(target, mel_prediction, np.max(target)-np.min(target))))
+					
 					#save griffin lim inverted wav for debug (mel -> wav)
 					wav = audio.inv_mel_spectrogram(mel_prediction.T)
 					audio.save_wav(wav, os.path.join(wav_dir, 'step-{}-waveform-mel.wav'.format(step)))
