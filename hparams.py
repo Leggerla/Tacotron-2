@@ -127,7 +127,7 @@ hparams = Map({
 
 
 	#Tacotron Training
-	'tacotron_batch_size' : 8,#32, #number of training samples on each training steps
+	'tacotron_batch_size' : 32, #number of training samples on each training steps
 	'tacotron_reg_weight' : 1e-6, #regularization weight (for l2 regularization)
 	'tacotron_scale_regularization' : True, #Whether to rescale regularization weight to adapt for outputs range (used when reg_weight is high and biasing the model)
 
