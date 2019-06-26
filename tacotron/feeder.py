@@ -9,7 +9,7 @@ import tensorflow as tf
 from hparams import hparams
 
 
-_batches_per_group = 8
+_batches_per_group = 32
 #pad input sequences with the <pad_token> 0 ( _ )
 _pad = 0
 #explicitely setting the padding to a value that doesn't originally exist in the spectogram
