@@ -173,7 +173,7 @@ def train(log_dir, args):
 					np.save(os.path.join(mel_dir, mel_filename), mel_prediction.T, allow_pickle=False)
 					np.save(os.path.join(mel_dir, mel_filename.replace('prediction', 'real')), target.T, allow_pickle=False)
 
-					log('PSNR score at step {}: {}'.format(step, compare_psnr(target, mel_prediction, np.max(target)-np.min(target))))
+					log('PSNR score at step {}: {}'.format(step, compare_psnr(target, mel_prediction[:target.shape[0], :], np.max(target)-np.min(target))))
 					
 					#save griffin lim inverted wav for debug (mel -> wav)
 					wav = audio.inv_mel_spectrogram(mel_prediction.T)
