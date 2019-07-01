@@ -1,6 +1,6 @@
 import tensorflow as tf 
 from tacotron.utils.symbols import symbols
-from infolog import log
+from tacotron.utils.infolog import log
 from tacotron.models.helpers import TacoTrainingHelper, TacoTestHelper
 from tacotron.models.modules import *
 from tensorflow.contrib.seq2seq import dynamic_decode
