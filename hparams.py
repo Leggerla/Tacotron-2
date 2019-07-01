@@ -40,7 +40,36 @@ hparams = Map({
 	# text, you may want to use "basic_cleaners" or "transliteration_cleaners".
 	'cleaners': 'english_cleaners',
 
+	#If you only have 1 GPU or want to use only one GPU, please set num_gpus=0 and specify the GPU idx on run. example:
+		#expample 1 GPU of index 2 (train on "/gpu2" only): CUDA_VISIBLE_DEVICES=2 python train.py --model='Tacotron' --hparams='tacotron_gpu_start_idx=2'
+	#If you want to train on multiple GPUs, simply specify the number of GPUs available, and the idx of the first GPU to use. example:
+		#example 4 GPUs starting from index 0 (train on "/gpu0"->"/gpu3"): python train.py --model='Tacotron' --hparams='tacotron_num_gpus=4, tacotron_gpu_start_idx=0'
+	#The hparams arguments can be directly modified on this hparams.py file instead of being specified on run if preferred!
 
+	#If one wants to train both Tacotron and WaveNet in parallel (provided WaveNet will be trained on True mel spectrograms), one needs to specify different GPU idxes.
+	#example Tacotron+WaveNet on a machine with 4 or more GPUs. Two GPUs for each model: 
+		# CUDA_VISIBLE_DEVICES=0,1 python train.py --model='Tacotron' --hparams='tacotron_num_gpus=2'
+		# Cuda_VISIBLE_DEVICES=2,3 python train.py --model='WaveNet' --hparams='wavenet_num_gpus=2'
+
+	#IMPORTANT NOTES: The Multi-GPU performance highly depends on your hardware and optimal parameters change between rigs. Default are optimized for servers.
+	#If using N GPUs, please multiply the tacotron_batch_size by N below in the hparams! (tacotron_batch_size = 32 * N)
+	#Never use lower batch size than 32 on a single GPU!
+	#Same applies for Wavenet: wavenet_batch_size = 8 * N (wavenet_batch_size can be smaller than 8 if GPU is having OOM, minimum 2)
+	#Please also apply the synthesis batch size modification likewise. (if N GPUs are used for synthesis, minimal batch size must be N, minimum of 1 sample per GPU)
+	#We did not add an automatic multi-GPU batch size computation to avoid confusion in the user's mind and to provide more control to the user for
+	#resources related decisions.
+
+	#Acknowledgement:
+	#	Many thanks to @MlWoo for his awesome work on multi-GPU Tacotron which showed to work a little faster than the original
+	#	pipeline for a single GPU as well. Great work!
+
+	#Hardware setup: Default supposes user has only one GPU: "/gpu:0" (Both Tacotron and WaveNet can be trained on multi-GPU: data parallelization)
+	#Synthesis also uses the following hardware parameters for multi-GPU parallel synthesis.
+	tacotron_num_gpus = 1, #Determines the number of gpus in use for Tacotron training.
+	wavenet_num_gpus = 1, #Determines the number of gpus in use for WaveNet training.
+	split_on_cpu = True, #Determines whether to split data on CPU or on first GPU. This is automatically True when more than 1 GPU is used. 
+		#(Recommend: False on slow CPUs/Disks, True otherwise for small speed boost)
+	
 	#Audio
 	'num_mels' : 80, 
 	'num_freq' : 513, #only used when adding linear spectrograms post processing network
