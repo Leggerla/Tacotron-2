@@ -97,7 +97,9 @@ hparams = tf.contrib.training.HParams(
 	mask_encoder = False, #whether to mask encoder padding while computing attention
 	impute_finished = False, #Whether to use loss mask for padded sequences
 	mask_finished = False, #Whether to mask alignments beyond the <stop_token> (False for debug, True for style)
-
+	#Loss params
+	mask_decoder = False, #Whether to use loss mask for padded sequences (if False, <stop_token> loss function will not be weighted, else recommended pos_weight = 20)
+	cross_entropy_pos_weight = 1, #Use class weights to reduce the stop token classes imbalance (by adding more penalty on False Negatives (FN)) (1 = disabled)
 	predict_linear = False, #Whether to add a post-processing network to the Tacotron to predict linear spectrograms (True mode Not tested!!)
 
 
