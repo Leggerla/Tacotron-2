@@ -130,28 +130,62 @@ hparams = tf.contrib.training.HParams(
 
 	#TODO model params
 
-
 	#Tacotron Training
+	
+	#Reproduction seeds
+	tacotron_random_seed = 5339, #Determines initial graph and operations (i.e: model) random state for reproducibility
+	tacotron_data_random_state = 1234, #random state for train test split repeatability
+
+	#performance parameters
+	tacotron_swap_with_cpu = False, #Whether to use cpu as support to gpu for decoder computation (Not recommended: may cause major slowdowns! Only use when critical!)
+
+	#train/test split ratios, mini-batches sizes
 	tacotron_batch_size = 8, #32, #number of training samples on each training steps
-	tacotron_reg_weight = 1e-6, #regularization weight (for l2 regularization)
-	tacotron_scale_regularization = True, #Whether to rescale regularization weight to adapt for outputs range (used when reg_weight is high and biasing the model)
+	#Tacotron Batch synthesis supports ~16x the training batch size (no gradients during testing). 
+	#Training Tacotron with unmasked paddings makes it aware of them, which makes synthesis times different from training. We thus recommend masking the encoder.
+	tacotron_synthesis_batch_size = 1, #DO NOT MAKE THIS BIGGER THAN 1 IF YOU DIDN'T TRAIN TACOTRON WITH "mask_encoder=True"!!
+	tacotron_test_size = 0.05, #% of data to keep as test data, if None, tacotron_test_batches must be not None. (5% is enough to have a good idea about overfit)
+	tacotron_test_batches = None, #number of test batches.
 
+	#Learning rate schedule
 	tacotron_decay_learning_rate = True, #boolean, determines if the learning rate will follow an exponential decay
-	tacotron_start_decay = 50000, #Step at which learning decay starts
-	tacotron_decay_steps = 50000, #starting point for learning rate decay (and determines the decay slope) (UNDER TEST)
-	tacotron_decay_rate = 0.4, #learning rate decay rate (UNDER TEST)
+	tacotron_start_decay = 40000, #Step at which learning decay starts
+	tacotron_decay_steps = 18000, #Determines the learning rate decay slope (UNDER TEST)
+	tacotron_decay_rate = 0.5, #learning rate decay rate (UNDER TEST)
 	tacotron_initial_learning_rate = 1e-3, #starting learning rate
-	tacotron_final_learning_rate = 1e-5, #minimal learning rate
+	tacotron_final_learning_rate = 1e-4, #minimal learning rate
 
+	#Optimization parameters
 	tacotron_adam_beta1 = 0.9, #AdamOptimizer beta1 parameter
 	tacotron_adam_beta2 = 0.999, #AdamOptimizer beta2 parameter
-	tacotron_adam_epsilon = 1e-6, #AdamOptimizer beta3 parameter
+	tacotron_adam_epsilon = 1e-6, #AdamOptimizer Epsilon parameter
 
+	#Regularization parameters
+	tacotron_reg_weight = 1e-6, #regularization weight (for L2 regularization)
+	tacotron_scale_regularization = False, #Whether to rescale regularization weight to adapt for outputs range (used when reg_weight is high and biasing the model)
 	tacotron_zoneout_rate = 0.1, #zoneout rate for all LSTM cells in the network
 	tacotron_dropout_rate = 0.5, #dropout rate for all convolutional layers + prenet
+	tacotron_clip_gradients = True, #whether to clip gradients
 
-	tacotron_teacher_forcing_ratio = 1., #Value from [0., 1.], 0.=0%, 1.=100%, determines the % of times we force next decoder inputs
-	
+	#Evaluation parameters
+	tacotron_natural_eval = False, #Whether to use 100% natural eval (to evaluate Curriculum Learning performance) or with same teacher-forcing ratio as in training (just for overfit)
+
+	#Decoder RNN learning can take be done in one of two ways:
+	#	Teacher Forcing: vanilla teacher forcing (usually with ratio = 1). mode='constant'
+	#	Scheduled Sampling Scheme: From Teacher-Forcing to sampling from previous outputs is function of global step. (teacher forcing ratio decay) mode='scheduled'
+	#The second approach is inspired by:
+	#Bengio et al. 2015: Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks.
+	#Can be found under: https://arxiv.org/pdf/1506.03099.pdf
+	tacotron_teacher_forcing_mode = 'constant', #Can be ('constant' or 'scheduled'). 'scheduled' mode applies a cosine teacher forcing ratio decay. (Preference: scheduled)
+	tacotron_teacher_forcing_ratio = 1., #Value from [0., 1.], 0.=0%, 1.=100%, determines the % of times we force next decoder inputs, Only relevant if mode='constant'
+	tacotron_teacher_forcing_init_ratio = 1., #initial teacher forcing ratio. Relevant if mode='scheduled'
+	tacotron_teacher_forcing_final_ratio = 0., #final teacher forcing ratio. (Set None to use alpha instead) Relevant if mode='scheduled'
+	tacotron_teacher_forcing_start_decay = 10000, #starting point of teacher forcing ratio decay. Relevant if mode='scheduled'
+	tacotron_teacher_forcing_decay_steps = 40000, #Determines the teacher forcing ratio decay slope. Relevant if mode='scheduled'
+	tacotron_teacher_forcing_decay_alpha = None, #teacher forcing ratio decay rate. Defines the final tfr as a ratio of initial tfr. Relevant if mode='scheduled'
+
+	#Speaker adaptation parameters
+	tacotron_fine_tuning = False, #Set to True to freeze encoder and only keep training pretrained decoder. Used for speaker adaptation with small data.
 
 	#Wavenet Training TODO
 
