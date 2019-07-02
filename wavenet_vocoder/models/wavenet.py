@@ -241,7 +241,7 @@ class WaveNet():
 		time_length = int(time_length)
 
 		#Global conditioning
-		if g in not None:
+		if g is not None:
 			if self.embed_speakers is not None:
 				g = self.embed_speakers(tf.reshape(g, [batch_size, -1]))
 				#[batch_size, channels, 1]
