@@ -5,7 +5,7 @@ import time
 import traceback
 from datetime import datetime
 
-import infolog
+from tacotron.utils import infolog
 import numpy as np
 import tensorflow as tf
 from datasets import audio
