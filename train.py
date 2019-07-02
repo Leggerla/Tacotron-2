@@ -8,7 +8,7 @@ from hparams import hparams
 from tacotron.utils.infolog import log
 from tacotron.synthesize import tacotron_synthesize
 from tacotron.train import tacotron_train
-from wavenet_vocoder.train import wavenet_train
+#from wavenet_vocoder.train import wavenet_train
 
 log = infolog.log
 
