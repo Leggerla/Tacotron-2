@@ -69,14 +69,6 @@ hparams = tf.contrib.training.HParams(
 
 	#Tacotron
 	
-	#Tacotron Training
-	#Reproduction seeds
-	tacotron_random_seed = 5339, #Determines initial graph and operations (i.e: model) random state for reproducibility
-	tacotron_data_random_state = 1234, #random state for train test split repeatability
-	
-	#performance parameters
-	tacotron_swap_with_cpu = False, #Whether to use cpu as support to gpu for decoder computation (Not recommended: may cause major slowdowns! Only use when critical!)
-	
 	outputs_per_step = 1, #number of frames to generate at each decoding step (speeds up computation and allows for higher batch size)
 	stop_at_any = True, #Determines whether the decoder should stop when predicting <stop> to any frame or to all of them
 
