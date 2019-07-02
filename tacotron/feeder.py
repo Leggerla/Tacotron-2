@@ -5,7 +5,7 @@ import traceback
 
 import numpy as np
 import tensorflow as tf
-from infolog import log
+from tacotron.utils.infolog import log
 from sklearn.model_selection import train_test_split
 from tacotron.utils.text import text_to_sequence
 
