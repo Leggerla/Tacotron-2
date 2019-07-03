@@ -58,7 +58,7 @@ hparams = tf.contrib.training.HParams(
 	max_abs_value = 4., #max absolute value of data. If symmetric, data will be [-max, max] else [0, max] 
 
 	#Limits
-	min_level_db =- 100,
+	min_level_db = -100,
 	ref_level_db = 20,
 	fmin = 125,
 	fmax = 8192,
@@ -134,7 +134,7 @@ hparams = tf.contrib.training.HParams(
 	tacotron_swap_with_cpu = False, #Whether to use cpu as support to gpu for decoder computation (Not recommended: may cause major slowdowns! Only use when critical!)
 
 	#train/test split ratios, mini-batches sizes
-	tacotron_batch_size = 8, #32, #number of training samples on each training steps
+	tacotron_batch_size = 32, #number of training samples on each training steps
 	#Tacotron Batch synthesis supports ~16x the training batch size (no gradients during testing). 
 	#Training Tacotron with unmasked paddings makes it aware of them, which makes synthesis times different from training. We thus recommend masking the encoder.
 	tacotron_synthesis_batch_size = 1, #DO NOT MAKE THIS BIGGER THAN 1 IF YOU DIDN'T TRAIN TACOTRON WITH "mask_encoder=True"!!
